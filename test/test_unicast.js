@@ -107,6 +107,22 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit byte types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_byte('key', 32);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('key').should.be.eql(32);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
     it("should emit ipaddr types", function(done) {
         var ev = new lwes.Event('MyEvent');
         ev.set_ipaddr('ipaddr_key', '192.168.0.10');
@@ -118,6 +134,22 @@ describe("UnicastEmitter", function() {
             ev.should.have.property('attributes');
             Object.keys(ev.attributes).length.should.be.eql(1);
             ev.get('ipaddr_key').should.be.eql('192.168.0.10');
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit string[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_string_array('k', ['test','test1','test2']);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql(['test','test1','test2']);
             listener.close();
             done();
         });
