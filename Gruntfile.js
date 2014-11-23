@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             coverage: {
                 src: 'test',
                 options: {
-                    'report-formats': 'text-summary',
+                    'report-formats': 'html',
                     print: 'summary',
                     check: {
                         lines: 90,

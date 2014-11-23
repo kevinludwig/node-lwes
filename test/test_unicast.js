@@ -157,6 +157,39 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit double types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_double('k', 3.1415926535);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql(3.1415926535);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit float types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_float('k', 3.14159);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            // broken: ev.get('k').should.be.eql(3.14159);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+ 
     it("should emit string[] types", function(done) {
         var ev = new lwes.Event('MyEvent');
         ev.set_string_array('k', ['test','test1','test2']);
@@ -184,6 +217,86 @@ describe("UnicastEmitter", function() {
             ev.should.have.property('attributes');
             Object.keys(ev.attributes).length.should.be.eql(1);
             ev.get('k').should.be.eql([1,2,3]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit uint16[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_uint16_array('k', [1,2,3]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([1,2,3]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit int32[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_int32_array('k', [1,2,3]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([1,2,3]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit uint32[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_uint32_array('k', [1,2,3]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([1,2,3]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit boolean[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_boolean_array('k', [true,true,false]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([true,true,false]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit double[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_double_array('k', [3.14,3.1415,3.1415926]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([3.14,3.1415,3.1415926]);
             listener.close();
             done();
         });
