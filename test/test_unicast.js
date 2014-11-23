@@ -39,6 +39,20 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should use encoding if present", function(done) {
+        var ev = new lwes.Event('MyEvent'); 
+        ev.set_uint16('enc', 1); 
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            Object.keys(ev.attributes).length.should.be.eql(0);
+            ev.encoding.should.be.eql(1);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
     it("should emit int16 types", function(done) {
         var ev = new lwes.Event('MyEvent');
         ev.set_int16('int16_key', 1234);
@@ -57,4 +71,23 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit int32 types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_int32('int32_key', 1234567);
+        ev.set_uint32('uint32_key', 7654321);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(2);
+            ev.get('int32_key').should.be.eql(1234567);
+            ev.get('uint32_key').should.be.eql(7654321);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+
 });
