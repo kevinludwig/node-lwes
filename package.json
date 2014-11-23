@@ -1,0 +1,24 @@
+{
+    "name":"lwes",
+    "version":"0.0.1",
+    "description":"light weight event system for javascript",
+    "repository": {
+        "type":"git",
+        "url":"https://github.com/kevinludwig/lwes-js.git"
+    },
+    "main": "./index.js",
+    "dependencies": {
+        "winston":"0.7.2",
+        "ip":"0.3.2",
+        "bignum": "0.9.0"
+    },
+    "devDependencies":{
+        "mocha":"1.12.0",
+        "should":"1.2.2",
+        "grunt":"0.4.1",
+        "jslint":"*"
+    },
+    "scripts": {
+        "test": "node_modules/mocha/bin/mocha"
+    }
+}

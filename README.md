@@ -1,0 +1,57 @@
+### Overview
+
+This is a javascript port of LWES (www.lwes.org).
+
+This is a work in progress. Do NOT use it (yet). 
+
+### Open issues
+
+* figure out how/if I can support encodings other than utf-8
+* bounds check string fields (event words, attribute words, etc)
+* check that the serialization format is correct
+* cross check against a different language implementation
+* figure out how to support ESF
+*  write tests
+
+### Examples
+
+To create a unicast emitter and send an event:
+
+```
+var lwes = require('lwes');
+
+var emitter = new lwes.UnicastEmitter('224.0.0.12', '9191');
+var e = new lwes.Event('MyEvent');
+e.set_uint16('id', 25);
+e.set_string('name', 'test');
+
+emitter.emit(e);
+emitter.close();
+```
+
+To create a multicast emitter and send an event:
+
+```
+var lwes = require('lwes');
+
+var ttl = 4;
+var emitter = lwes.MulticastEmitter('224.1.1.1','9191',ttl);
+var e = new lwes.Event('MyEvent');
+e.set_uint16('id',1);
+e.set_string('name','test');
+emitter.emit(e);
+emitter.close();
+```
+
+To create an event printing listener:
+```
+listener = new Listener ('224.1.1.1','9191');
+listener.listen(function(e) {
+    console.log(JSON.stringify(e));
+});
+
+process.on('SIGINT', function() {
+    listener.close();
+});
+
+```
