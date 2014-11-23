@@ -2,16 +2,16 @@
 
 This is a javascript port of LWES (www.lwes.org).
 
-This is a work in progress. Do NOT use it (yet). 
+This is a work in progress, and is not a functional implementation. Do NOT use it (yet). 
 
 ### Open issues
 
-* figure out how/if I can support encodings other than utf-8
-* bounds check string fields (event words, attribute words, etc)
-* check that the serialization format is correct
-* cross check against a different language implementation
-* figure out how to support ESF
-*  write tests
+* only supports utf-8
+* needs bounds checking on some fields (max field size, max key size, etc.)
+* needs tests
+* missing ESF
+* missing Startup/Shutdown/Stat events
+* not cross platform tested.
 
 ### Examples
 
