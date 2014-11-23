@@ -89,5 +89,22 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit boolean types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_boolean('t_key', true);
+        ev.set_boolean('f_key', false);
 
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(2);
+            ev.get('t_key').should.be.eql(true);
+            ev.get('f_key').should.be.eql(false);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
 });
