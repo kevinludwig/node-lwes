@@ -155,4 +155,20 @@ describe("UnicastEmitter", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit int16[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_int16_array('k', [1,2,3]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([1,2,3]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
 });
