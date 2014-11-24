@@ -19,7 +19,7 @@ describe("MulticastEmitter", function() {
     var ttl = 1;
     it("should emit", function(done) {
         var emitter = new lwes.MulticastEmitter(ip,port,ttl, function() {
-            var ev = new lwes.Event('MyEvent'); 
+            var ev = emitter.createEvent('MyEvent'); 
             ev.set_string('k', 'test'); 
 
             var listener = new lwes.Listener(ip,port);
@@ -29,8 +29,8 @@ describe("MulticastEmitter", function() {
                 ev.name.should.be.eql('MyEvent');
                 Object.keys(ev.attributes).length.should.be.eql(3+1);
                 ev.get('k').should.be.eql("test");
-                listener.close();
-                emitter.close();
+                listener.destroy();
+                emitter.destroy();
                 done();
             });
             emitter.emit(ev);

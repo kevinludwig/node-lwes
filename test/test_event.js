@@ -21,10 +21,10 @@ describe("Event", function() {
         emitter = new lwes.UnicastEmitter(ip,port);
     });
     after(function() {
-        emitter.close();
+        emitter.destroy();
     });
     it("should emit name", function(done) {
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_string('k', 'test'); 
 
         var listener = new lwes.Listener(ip,port);
@@ -34,13 +34,13 @@ describe("Event", function() {
             ev.name.should.be.eql('MyEvent');
             Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql("test");
-            listener.close();
+            listener.destroy();
             done();
         });
         emitter.emit(ev);
     });
     it("should allow name to reset", function(done) {
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_string('somekey', 'test string'); 
         ev.setEventName('MyEvent123456789');
 
@@ -51,14 +51,14 @@ describe("Event", function() {
             ev.name.should.be.eql('MyEvent123456789');
             Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('somekey').should.be.eql("test string");
-            listener.close();
+            listener.destroy();
             done();
         });
         emitter.emit(ev);
     });
     it("should recompute payload if setEventName after emit()", function(done) {
         var count = 0;
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_string('somekey', 'test string'); 
 
         var listener = new lwes.Listener(ip,port);
@@ -70,7 +70,7 @@ describe("Event", function() {
                 ev.name.should.be.eql('MyEvent123456789');
                 Object.keys(ev.attributes).length.should.be.eql(3+1);
                 ev.get('somekey').should.be.eql("test string");
-                listener.close();
+                listener.destroy();
                 done();
             }
         });
@@ -82,7 +82,7 @@ describe("Event", function() {
     });
  
     it("should clear attributes", function(done) {
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_string('test', 'test value'); 
         ev.set_int32('k',-12345);
         ev.clear('test');
@@ -94,7 +94,7 @@ describe("Event", function() {
             Object.keys(ev.attributes).length.should.be.eql(3+1);
             should.not.exist(ev.get('test')); 
             ev.get('k').should.be.eql(-12345);
-            listener.close();
+            listener.destroy();
             done();
         });
         emitter.emit(ev);
@@ -102,7 +102,7 @@ describe("Event", function() {
     
     it("should recompute payload size if event.clear(attribute) after emit()", function(done) {
         var count = 0;
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_string('test', 'test value'); 
         ev.set_int32('k',-12345);
 
@@ -115,7 +115,7 @@ describe("Event", function() {
                 Object.keys(ev.attributes).length.should.be.eql(3+1);
                 should.not.exist(ev.get('test')); 
                 ev.get('k').should.be.eql(-12345);
-                listener.close();
+                listener.destroy();
                 done();
             }
         });
@@ -125,7 +125,7 @@ describe("Event", function() {
     });
  
     it("should use encoding if present", function(done) {
-        var ev = new lwes.Event('MyEvent'); 
+        var ev = emitter.createEvent('MyEvent'); 
         ev.set_uint16('enc', 1); 
 
         var listener = new lwes.Listener(ip,port);
@@ -133,7 +133,7 @@ describe("Event", function() {
             should.not.exist(err);
             Object.keys(ev.attributes).length.should.be.eql(3+0);
             ev.encoding.should.be.eql(1);
-            listener.close();
+            listener.destroy();
             done();
         });
         emitter.emit(ev);
