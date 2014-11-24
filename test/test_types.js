@@ -11,6 +11,7 @@
  * =====================================================================*/
 
 var should = require('should'),
+    bignum = require('bignum'),
     lwes = require('../index');
 
 describe("Event types and serialization", function() {
@@ -70,6 +71,24 @@ describe("Event types and serialization", function() {
             Object.keys(ev.attributes).length.should.be.eql(2);
             ev.get('int32_key').should.be.eql(1234567);
             ev.get('uint32_key').should.be.eql(7654321);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    });
+    it("should emit int64 types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_int64('int64_key', bignum('12345678901234567890'));
+        ev.set_uint64('uint64_key', bignum('12345678901234567890'));
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(2);
+            ev.get('int64_key').should.be.eql(bignum('12345678901234567890'));
+            ev.get('uint64_key').should.be.eql(bignum('12345678901234567890'));
             listener.close();
             done();
         });
@@ -151,7 +170,7 @@ describe("Event types and serialization", function() {
             ev.should.have.property('name');
             ev.should.have.property('attributes');
             Object.keys(ev.attributes).length.should.be.eql(1);
-            // broken: ev.get('k').should.be.eql(3.14159);
+            ev.get('k').toFixed(5).should.be.eql('3.14159');
             listener.close();
             done();
         });
@@ -272,7 +291,7 @@ describe("Event types and serialization", function() {
     });
     it("should emit float[] types", function(done) {
         var ev = new lwes.Event('MyEvent');
-        ev.set_float_array('k', [3.14,3.1415,3.1415926]);
+        ev.set_float_array('k', [3.14,3.1415,3.141592]);
 
         var listener = new lwes.Listener(ip,port);
         listener.listen(function(err,ev) {
@@ -280,7 +299,7 @@ describe("Event types and serialization", function() {
             ev.should.have.property('name');
             ev.should.have.property('attributes');
             Object.keys(ev.attributes).length.should.be.eql(1);
-            // broken: ev.get('k').should.be.eql([3.14,3.1415,3.1415926]);
+            ev.get('k').map(function(v) {return v.toFixed(6);}).should.be.eql(['3.140000','3.141500','3.141592']);
             listener.close();
             done();
         });
@@ -303,10 +322,8 @@ describe("Event types and serialization", function() {
         emitter.emit(ev);
     }); 
  
-    /* Broken at the moment
      it("should emit ip address array types", function(done) {
         var ev = new lwes.Event('MyIpAddrArrayEvent');
-        ev.set_int16('k0', 1234);
         ev.set_ipaddr_array('k', ['127.0.0.1','192.168.0.12']);
 
         var listener = new lwes.Listener(ip,port);
@@ -320,5 +337,22 @@ describe("Event types and serialization", function() {
             done();
         });
         emitter.emit(ev);
-    }); */
+    }); 
+    it("should emit int64 array types", function(done) {
+        var ev = new lwes.Event('MyInt64Event');
+        var bn = bignum('123456789012345');
+        ev.set_int64_array('k', [bn,bn.mul(2),bn.mul(4)]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([bn, bn.mul(2), bn.mul(4)]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    }); 
 });
