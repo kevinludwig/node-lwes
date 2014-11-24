@@ -6,7 +6,6 @@ This is a javascript port of LWES (www.lwes.org).
 
 * only supports utf-8
 * missing ESF
-* missing Startup/Shutdown/Stat events
 
 ### Examples
 

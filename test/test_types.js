@@ -30,6 +30,7 @@ describe("Event types and serialization", function() {
 
         var listener = new lwes.Listener(ip,port);
         listener.listen(function(err,ev) {
+            if (ev.name === 'System::Startup') return;
             should.not.exist(err);
             ev.should.have.property('name');
             Object.keys(ev.attributes).length.should.be.eql(3+1);

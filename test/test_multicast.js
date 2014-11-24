@@ -24,6 +24,8 @@ describe("MulticastEmitter", function() {
 
             var listener = new lwes.Listener(ip,port);
             listener.listen(function(err,ev) {
+                if (ev.name === 'System::Startup') return;
+
                 should.not.exist(err);
                 ev.should.have.property('name');
                 ev.name.should.be.eql('MyEvent');
