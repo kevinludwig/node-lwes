@@ -13,7 +13,7 @@
 var should = require('should'),
     lwes = require('../index');
 
-describe("UnicastEmitter", function() {
+describe("Event types and serialization", function() {
     var ip = '224.1.1.1';
     var port = '9191';
     var emitter = null;
@@ -23,7 +23,7 @@ describe("UnicastEmitter", function() {
     after(function() {
         emitter.close();
     });
-    it("should emit name, string key", function(done) {
+    it("should allow string type", function(done) {
         var ev = new lwes.Event('MyEvent'); // 7 + 2 + 2
         ev.set_string('somekey', 'test string'); // 7 + 2 + 1 + 2 + 11
 
@@ -31,24 +31,6 @@ describe("UnicastEmitter", function() {
         listener.listen(function(err,ev) {
             should.not.exist(err);
             ev.should.have.property('name');
-            ev.name.should.be.eql('MyEvent');
-            Object.keys(ev.attributes).length.should.be.eql(1);
-            ev.get('somekey').should.be.eql("test string");
-            listener.close();
-            done();
-        });
-        emitter.emit(ev);
-    });
-    it("should allow name to reset", function(done) {
-        var ev = new lwes.Event('MyEvent'); // 7 + 2 + 2
-        ev.set_string('somekey', 'test string'); // 7 + 2 + 1 + 2 + 11
-        ev.setEventName('MyEvent123456789');
-
-        var listener = new lwes.Listener(ip,port);
-        listener.listen(function(err,ev) {
-            should.not.exist(err);
-            ev.should.have.property('name');
-            ev.name.should.be.eql('MyEvent123456789');
             Object.keys(ev.attributes).length.should.be.eql(1);
             ev.get('somekey').should.be.eql("test string");
             listener.close();
@@ -57,20 +39,6 @@ describe("UnicastEmitter", function() {
         emitter.emit(ev);
     });
  
-    it("should use encoding if present", function(done) {
-        var ev = new lwes.Event('MyEvent'); 
-        ev.set_uint16('enc', 1); 
-
-        var listener = new lwes.Listener(ip,port);
-        listener.listen(function(err,ev) {
-            should.not.exist(err);
-            Object.keys(ev.attributes).length.should.be.eql(0);
-            ev.encoding.should.be.eql(1);
-            listener.close();
-            done();
-        });
-        emitter.emit(ev);
-    });
     it("should emit int16 types", function(done) {
         var ev = new lwes.Event('MyEvent');
         ev.set_int16('int16_key', 1234);
