@@ -56,6 +56,31 @@ describe("Event", function() {
         });
         emitter.emit(ev);
     });
+    it("should recompute payload if setEventName after emit()", function(done) {
+        var count = 0;
+        var ev = new lwes.Event('MyEvent'); 
+        ev.set_string('somekey', 'test string'); 
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            count += 1;
+            if (count == 2) {
+                should.not.exist(err);
+                ev.should.have.property('name');
+                ev.name.should.be.eql('MyEvent123456789');
+                Object.keys(ev.attributes).length.should.be.eql(1);
+                ev.get('somekey').should.be.eql("test string");
+                listener.close();
+                done();
+            }
+        });
+        emitter.emit(ev);
+
+        // payload size has been precomputed, this forces it to recompute size
+        ev.setEventName('MyEvent123456789');
+        emitter.emit(ev);
+    });
+ 
     it("should clear attributes", function(done) {
         var ev = new lwes.Event('MyEvent'); 
         ev.set_string('test', 'test value'); 
@@ -72,6 +97,30 @@ describe("Event", function() {
             listener.close();
             done();
         });
+        emitter.emit(ev);
+    });
+    
+    it("should recompute payload size if event.clear(attribute) after emit()", function(done) {
+        var count = 0;
+        var ev = new lwes.Event('MyEvent'); 
+        ev.set_string('test', 'test value'); 
+        ev.set_int32('k',-12345);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            count += 1;
+            if (count === 2) {
+                should.not.exist(err);
+                ev.should.have.property('name');
+                Object.keys(ev.attributes).length.should.be.eql(1);
+                should.not.exist(ev.get('test')); 
+                ev.get('k').should.be.eql(-12345);
+                listener.close();
+                done();
+            }
+        });
+        emitter.emit(ev);
+        ev.clear('test');
         emitter.emit(ev);
     });
  

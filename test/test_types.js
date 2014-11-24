@@ -270,4 +270,55 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit float[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_float_array('k', [3.14,3.1415,3.1415926]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            // broken: ev.get('k').should.be.eql([3.14,3.1415,3.1415926]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    }); 
+    it("should emit byte[] types", function(done) {
+        var ev = new lwes.Event('MyEvent');
+        ev.set_byte_array('k', [1,2,3,4,5]);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql([1,2,3,4,5]);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    }); 
+ 
+    /* Broken at the moment
+     it("should emit ip address array types", function(done) {
+        var ev = new lwes.Event('MyIpAddrArrayEvent');
+        ev.set_int16('k0', 1234);
+        ev.set_ipaddr_array('k', ['127.0.0.1','192.168.0.12']);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(1);
+            ev.get('k').should.be.eql(['127.0.0.1','192.168.0.12']);
+            listener.close();
+            done();
+        });
+        emitter.emit(ev);
+    }); */
 });
