@@ -32,7 +32,7 @@ describe("Event", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.name.should.be.eql('MyEvent');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql("test");
             listener.close();
             done();
@@ -49,7 +49,7 @@ describe("Event", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.name.should.be.eql('MyEvent123456789');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('somekey').should.be.eql("test string");
             listener.close();
             done();
@@ -68,7 +68,7 @@ describe("Event", function() {
                 should.not.exist(err);
                 ev.should.have.property('name');
                 ev.name.should.be.eql('MyEvent123456789');
-                Object.keys(ev.attributes).length.should.be.eql(1);
+                Object.keys(ev.attributes).length.should.be.eql(3+1);
                 ev.get('somekey').should.be.eql("test string");
                 listener.close();
                 done();
@@ -91,7 +91,7 @@ describe("Event", function() {
         listener.listen(function(err,ev) {
             should.not.exist(err);
             ev.should.have.property('name');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             should.not.exist(ev.get('test')); 
             ev.get('k').should.be.eql(-12345);
             listener.close();
@@ -112,7 +112,7 @@ describe("Event", function() {
             if (count === 2) {
                 should.not.exist(err);
                 ev.should.have.property('name');
-                Object.keys(ev.attributes).length.should.be.eql(1);
+                Object.keys(ev.attributes).length.should.be.eql(3+1);
                 should.not.exist(ev.get('test')); 
                 ev.get('k').should.be.eql(-12345);
                 listener.close();
@@ -131,7 +131,7 @@ describe("Event", function() {
         var listener = new lwes.Listener(ip,port);
         listener.listen(function(err,ev) {
             should.not.exist(err);
-            Object.keys(ev.attributes).length.should.be.eql(0);
+            Object.keys(ev.attributes).length.should.be.eql(3+0);
             ev.encoding.should.be.eql(1);
             listener.close();
             done();

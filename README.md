@@ -8,7 +8,6 @@ This is a work in progress, and is not a functional implementation. Do NOT use i
 
 * only supports utf-8
 * needs bounds checking on some fields (max field size, max key size, etc.)
-* needs tests
 * missing ESF
 * missing Startup/Shutdown/Stat events
 * not cross platform tested.

@@ -32,7 +32,7 @@ describe("Event types and serialization", function() {
         listener.listen(function(err,ev) {
             should.not.exist(err);
             ev.should.have.property('name');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('somekey').should.be.eql("test string");
             listener.close();
             done();
@@ -50,7 +50,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(2);
+            Object.keys(ev.attributes).length.should.be.eql(3+2);
             ev.get('int16_key').should.be.eql(1234);
             ev.get('uint16_key').should.be.eql(2000);
             listener.close();
@@ -68,7 +68,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(2);
+            Object.keys(ev.attributes).length.should.be.eql(3+2);
             ev.get('int32_key').should.be.eql(1234567);
             ev.get('uint32_key').should.be.eql(7654321);
             listener.close();
@@ -86,7 +86,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(2);
+            Object.keys(ev.attributes).length.should.be.eql(3+2);
             ev.get('int64_key').should.be.eql(bignum('12345678901234567890'));
             ev.get('uint64_key').should.be.eql(bignum('12345678901234567890'));
             listener.close();
@@ -104,7 +104,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(2);
+            Object.keys(ev.attributes).length.should.be.eql(3+2);
             ev.get('t_key').should.be.eql(true);
             ev.get('f_key').should.be.eql(false);
             listener.close();
@@ -121,7 +121,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('key').should.be.eql(32);
             listener.close();
             done();
@@ -137,7 +137,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('ipaddr_key').should.be.eql('192.168.0.10');
             listener.close();
             done();
@@ -153,7 +153,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql(3.1415926535);
             listener.close();
             done();
@@ -169,7 +169,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').toFixed(5).should.be.eql('3.14159');
             listener.close();
             done();
@@ -186,7 +186,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql(['test','test1','test2']);
             listener.close();
             done();
@@ -202,7 +202,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([1,2,3]);
             listener.close();
             done();
@@ -218,7 +218,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([1,2,3]);
             listener.close();
             done();
@@ -234,7 +234,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([1,2,3]);
             listener.close();
             done();
@@ -250,7 +250,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([1,2,3]);
             listener.close();
             done();
@@ -266,7 +266,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([true,true,false]);
             listener.close();
             done();
@@ -282,7 +282,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([3.14,3.1415,3.1415926]);
             listener.close();
             done();
@@ -298,7 +298,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').map(function(v) {return v.toFixed(6);}).should.be.eql(['3.140000','3.141500','3.141592']);
             listener.close();
             done();
@@ -314,7 +314,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([1,2,3,4,5]);
             listener.close();
             done();
@@ -331,7 +331,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql(['127.0.0.1','192.168.0.12']);
             listener.close();
             done();
@@ -348,7 +348,7 @@ describe("Event types and serialization", function() {
             should.not.exist(err);
             ev.should.have.property('name');
             ev.should.have.property('attributes');
-            Object.keys(ev.attributes).length.should.be.eql(1);
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
             ev.get('k').should.be.eql([bn, bn.mul(2), bn.mul(4)]);
             listener.close();
             done();

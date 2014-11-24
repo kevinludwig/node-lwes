@@ -27,7 +27,7 @@ describe("MulticastEmitter", function() {
                 should.not.exist(err);
                 ev.should.have.property('name');
                 ev.name.should.be.eql('MyEvent');
-                Object.keys(ev.attributes).length.should.be.eql(1);
+                Object.keys(ev.attributes).length.should.be.eql(3+1);
                 ev.get('k').should.be.eql("test");
                 listener.close();
                 emitter.close();
