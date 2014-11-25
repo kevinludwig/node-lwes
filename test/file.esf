@@ -2,7 +2,12 @@
 # another comment line
 TestEvent 
 {
-    required nullable int32 intkey; # end of line comment
-    required string  k;
-    optional int16 int16key;
+    required nullable int32 intkey; # test nullable type 
+    required string  k; # test required type
+    optional int16 int16key; # test optional type
+    optional uint32 ik[8]; # test array type
+    double d1;
+    float f1;
+    uint64 u64;
+    boolean b1;
 }
