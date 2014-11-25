@@ -6,8 +6,9 @@ TestEvent
     required string  k; # test required type
     optional int16 int16key; # test optional type
     optional uint32 ik[8]; # test array type
-    double d1;
+    double d1 = 3.14;
     float f1;
-    uint64 u64;
+    uint64 u64 = 12345;
     boolean b1;
+    string k2 = "oh nos yup yup";
 }
