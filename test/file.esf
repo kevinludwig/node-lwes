@@ -1,0 +1,8 @@
+# test comment line
+# another comment line
+TestEvent 
+{
+    int32 = intkey; # end of line comment
+    string = k;
+    int16 = int16key;
+}
