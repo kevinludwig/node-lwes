@@ -1,6 +1,6 @@
 ### Overview
 
-This is a javascript port of LWES (www.lwes.org).
+This is a pure javascript implementation of LWES (www.lwes.org).
 
 ### Open issues
 

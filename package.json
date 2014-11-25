@@ -1,12 +1,17 @@
 {
     "name":"lwes",
-    "version":"0.0.1",
+    "version":"0.3.0",
     "description":"light weight event system for javascript",
-    "repository": {
-        "type":"git",
-        "url":"https://github.com/kevinludwig/lwes-js.git"
-    },
+    "homepage": "www.lwes.org",
+    "keywords": ["lwes"],
     "main": "./index.js",
+    "engines": {
+        "node": ">=0.10.33"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/kevinludwig/node-lwes.git"
+    },
     "dependencies": {
         "winston":"0.7.2",
         "ip":"0.3.2",
