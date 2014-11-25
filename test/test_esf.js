@@ -21,9 +21,10 @@ describe("ESF Parser", function() {
             should.exist(db);
             db.should.have.property("TestEvent");
             db.TestEvent.should.have.property("k");
-            db.TestEvent.k.should.be.eql("string");
-            db.TestEvent.intkey.should.be.eql("int32");
-            db.TestEvent.int16key.should.be.eql("int16");
+            db.TestEvent.k.type.should.be.eql("string");
+            db.TestEvent.k.required.should.be.eql(true);
+            db.TestEvent.intkey.type.should.be.eql("int32");
+            db.TestEvent.int16key.type.should.be.eql("int16");
             done();
         });
     });

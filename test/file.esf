@@ -2,7 +2,7 @@
 # another comment line
 TestEvent 
 {
-    int32 = intkey; # end of line comment
-    string = k;
-    int16 = int16key;
+    required nullable int32 intkey; # end of line comment
+    required string  k;
+    optional int16 int16key;
 }
