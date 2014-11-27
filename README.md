@@ -29,7 +29,7 @@ To create a multicast emitter and send an event:
 var lwes = require('lwes');
 
 var ttl = 4;
-var emitter = lwes.MulticastEmitter('224.1.1.1','9191',ttl);
+var emitter = new lwes.MulticastEmitter('224.1.1.1','9191',ttl);
 var e = emitter.createEvent('MyEvent');
 e.set_uint16('id',1);
 e.set_string('name','test');
@@ -46,6 +46,27 @@ listener.listen(function(e) {
 
 process.on('SIGINT', function() {
     listener.destroy();
+});
+
+```
+
+To validate an event:
+```
+var lwes = require('lwes');
+
+var db = new lwes.EventTemplateDB('path/to/template.esf');
+db.initialize(function(err) {
+    var emitter = new lwes.MulticastEmitter('224.1.1.1','9191',4);
+
+    var e = emitter.createEvent('MyEvent');
+    e.set_string('k','test');
+    
+    var validationErrors = db.validate(e);
+    if (validationErrors.length > 0) {
+        validationErrors.forEach(function(error) {
+            console.log(error);
+        });
+    }
 });
 
 ```
