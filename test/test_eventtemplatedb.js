@@ -17,7 +17,7 @@ var should = require('should'),
 
 describe("EventTemplateDB", function() {
     var file = path.join(__dirname, "file.esf");
-    it("should return true for valid event", function(done) {
+    it("should return [] for valid event", function(done) {
         var db = new EventTemplateDB(file);
         db.initialize(function(err) {
             should.not.exist(err);
@@ -27,7 +27,83 @@ describe("EventTemplateDB", function() {
             ev.set_int32("intkey", 123);
             ev.set_int16("int16key", 1);
             ev.set_uint32_array("ik", [1,2,3,4]);
-            db.validate(ev).should.be.eql(true);
+            ev.set_boolean("b1", true);
+            db.validate(ev).should.be.eql([]);
+            done();
+        });
+    });
+    it("should return error if event not in db", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent111");
+            ev.set_string("k","test");
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_boolean("b1", true);
+            db.validate(ev).should.be.eql(["no event definition for TestEvent111"]);
+            done();
+        });
+    });
+    it("should return error for missing required fields", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            // required: ev.set_string("k","test");
+            // required: ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_boolean("b1", true);
+            db.validate(ev).should.be.eql(["required field missing intkey", "required field missing k"]);
+            done();
+        });
+    });
+    it("should return error for array longer than limit", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            ev.set_string("k","test");
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4,5,6,7,8,9]);
+            ev.set_boolean("b1", true);
+            db.validate(ev).should.be.eql(["array larger than limit for ik"]);
+            done();
+        });
+    }); 
+    it("should return error for type mismatch", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            ev.set_float("k","test");
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_boolean("b1", true);
+            db.validate(ev).should.be.eql(["type mismatch for k"]);
+            done();
+        });
+    });
+    it("should return error for null value in field with nullable=false", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            ev.set_string("k",null);
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_float("f1", null);
+            db.validate(ev).should.be.eql(["attribute value null for k"]);
             done();
         });
     });
