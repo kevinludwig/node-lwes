@@ -13,4 +13,4 @@
 exports.UnicastEmitter = require('./lib/unicast-emitter');
 exports.MulticastEmitter = require('./lib/multicast-emitter');
 exports.Listener = require('./lib/listener');
-exports.EventTemplateDB = require('./lib/eventtemplatedb');
+exports.EventTemplateDB = require('./lib/event-template-db');

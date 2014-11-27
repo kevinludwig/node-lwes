@@ -12,7 +12,7 @@
 
 var should = require('should'),
     path = require('path'),
-    esfparser = require('../lib/esfparser');
+    esfparser = require('../lib/esf-parser');
 
 describe("ESF Parser", function() {
     it("should return a db", function(done) {

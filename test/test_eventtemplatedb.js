@@ -13,7 +13,7 @@
 var should = require('should'),
     path = require('path'),
     Event = require('../lib/event'),
-    EventTemplateDB = require('../lib/eventtemplatedb');
+    EventTemplateDB = require('../lib/event-template-db');
 
 describe("EventTemplateDB", function() {
     var file = path.join(__dirname, "file.esf");
