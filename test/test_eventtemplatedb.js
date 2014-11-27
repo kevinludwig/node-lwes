@@ -12,19 +12,22 @@
 
 var should = require('should'),
     path = require('path'),
-    esfparser = require('../lib/esfparser');
+    Event = require('../lib/event'),
+    EventTemplateDB = require('../lib/eventtemplatedb');
 
-describe("ESF Parser", function() {
-    it("should return a db", function(done) {
-        esfparser(path.join(__dirname, "file.esf"), function(err,db) {
+describe("EventTemplateDB", function() {
+    var file = path.join(__dirname, "file.esf");
+    it("should return true for valid event", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
             should.not.exist(err);
-            should.exist(db);
-            db.should.have.property("TestEvent");
-            db.TestEvent.should.have.property("k");
-            db.TestEvent.k.typeName.should.be.eql("string");
-            db.TestEvent.k.required.should.be.eql(true);
-            db.TestEvent.intkey.typeName.should.be.eql("int32");
-            db.TestEvent.int16key.typeName.should.be.eql("int16");
+            
+            var ev = new Event("TestEvent");
+            ev.set_string("k","test");
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            db.validate(ev).should.be.eql(true);
             done();
         });
     });
