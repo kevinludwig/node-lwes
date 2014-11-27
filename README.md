@@ -9,7 +9,7 @@ This is a pure javascript implementation of LWES (www.lwes.org).
 ### Open issues
 
 * only supports utf-8
-* EventTemplateDB does not yet support MetaEventInfo 
+* still need to run through lwes-tests to verify completeness
 
 ### Examples
 

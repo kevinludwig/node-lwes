@@ -14,6 +14,7 @@
     },
     "dependencies": {
         "winston":"0.7.2",
+        "underscore": "1.7.0",
         "ip":"0.3.2",
         "bignum": "0.9.0",
         "pegjs": "0.8.0"

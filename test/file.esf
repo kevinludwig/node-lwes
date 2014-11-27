@@ -1,3 +1,9 @@
+# meta event info
+MetaEventInfo {
+    string enc  = "utf8";
+    ip_addr SenderIP;
+    uint16 SenderPort;
+}
 # test comment line
 # another comment line
 TestEvent 

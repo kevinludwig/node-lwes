@@ -107,4 +107,25 @@ describe("EventTemplateDB", function() {
             done();
         });
     });
+    it("should inherit from MetaEventInfo", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            ev.set_string("k","test");
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_boolean("b1", true);
+
+            // MetaEventInfo:
+            ev.set_ipaddr("SenderIP","127.0.0.1");
+            ev.set_uint16("SenderPort",1111);
+
+            db.validate(ev).should.be.eql([]);
+            done();
+        });
+    });
+ 
 });
