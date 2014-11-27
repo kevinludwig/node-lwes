@@ -2,10 +2,14 @@
 
 This is a pure javascript implementation of LWES (www.lwes.org).
 
+### Installation
+
+`npm install lwes`
+
 ### Open issues
 
 * only supports utf-8
-* missing ESF
+* EventTemplateDB does not yet support MetaEventInfo 
 
 ### Examples
 
@@ -39,6 +43,7 @@ emitter.destroy();
 
 To create an event printing listener:
 ```
+var lwes = require('lwes');
 listener = new Listener ('224.1.1.1','9191');
 listener.listen(function(e) {
     console.log(JSON.stringify(e));
