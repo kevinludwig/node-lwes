@@ -92,7 +92,7 @@ describe("EventTemplateDB", function() {
             done();
         });
     });
-    it("should return error for null value in field with nullable=false", function(done) {
+    it("should return error for nullable on non-array fields", function(done) {
         var db = new EventTemplateDB(file);
         db.initialize(function(err) {
             should.not.exist(err);
@@ -102,11 +102,27 @@ describe("EventTemplateDB", function() {
             ev.set_int32("intkey", 123);
             ev.set_int16("int16key", 1);
             ev.set_uint32_array("ik", [1,2,3,4]);
-            ev.set_float("f1", null);
-            db.validate(ev).should.be.eql(["attribute value null for k"]);
+            ev.set_float("f1", 2.1111);
+            db.validate(ev).should.be.eql(["nullable not valid on non-array type, f1"]);
             done();
         });
     });
+    it("should allow nullable for array fields", function(done) {
+        var db = new EventTemplateDB(file);
+        db.initialize(function(err) {
+            should.not.exist(err);
+            
+            var ev = new Event("TestEvent");
+            ev.set_string("k",null);
+            ev.set_int32("intkey", 123);
+            ev.set_int16("int16key", 1);
+            ev.set_uint32_array("ik", [1,2,3,4]);
+            ev.set_nfloat_array("f2", [2.1111]);
+            db.validate(ev).should.be.eql([]);
+            done();
+        });
+    });
+ 
     it("should inherit from MetaEventInfo", function(done) {
         var db = new EventTemplateDB(file);
         db.initialize(function(err) {

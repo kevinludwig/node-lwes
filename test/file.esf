@@ -8,12 +8,13 @@ MetaEventInfo {
 # another comment line
 TestEvent 
 {
-    required nullable int32 intkey; # test nullable type 
+    required int32 intkey; # test nullable type 
     required string  k; # test required type
     optional int16 int16key; # test optional type
     optional uint32 ik[8]; # test array type
     double d1 = 3.14;
     nullable float f1;
+    nullable float f2[1];
     uint64 u64 = 12345;
     boolean b1;
     string k2 = "oh nos yup yup";
