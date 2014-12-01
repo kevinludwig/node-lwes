@@ -9,7 +9,6 @@ This is a pure javascript implementation of LWES (www.lwes.org).
 ### Open issues
 
 * only supports utf-8
-* no support for nullable arrays (yet)
 * still need to run through lwes-tests to verify completeness
 
 ### Examples
