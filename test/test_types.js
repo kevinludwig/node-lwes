@@ -194,6 +194,24 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit sparse string[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [null,'test',null,'test1',null,'test2',null];
+        ev.set_nstring_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+ 
     it("should emit int16[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_int16_array('k', [1,2,3]);
@@ -210,6 +228,24 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit sparse int16[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [null,null,null,1,2,3,4,null,null,null,5,null];
+        ev.set_nint16_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+ 
     it("should emit uint16[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_uint16_array('k', [1,2,3]);
@@ -226,6 +262,24 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit sparse uint16[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [null,null,null,null,1,null,null,null,null,2,null,null,3];
+        ev.set_nuint16_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+ 
     it("should emit int32[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_int32_array('k', [1,2,3]);
@@ -242,6 +296,24 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    it("should emit sparse int32[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [null,null,null,null,1,2,-1,-2,-3,null,null,23000];
+        ev.set_nint32_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+ 
     it("should emit uint32[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_uint32_array('k', [1,2,3]);
@@ -258,6 +330,25 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+ 
+    it("should emit sparse uint32[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [null,1,2,3,4,null,null,null,null,null,99100];
+        ev.set_nuint32_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+
     it("should emit boolean[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_boolean_array('k', [true,true,false]);
@@ -274,6 +365,25 @@ describe("Event types and serialization", function() {
         });
         emitter.emit(ev);
     });
+    
+    it("should emit sparse boolean[] types", function(done) {
+        var ev = emitter.createEvent('MyEvent');
+        var payload = [true,null,null,false,null,null,null,null,null,true];
+        ev.set_nboolean_array('k', payload);
+
+        var listener = new lwes.Listener(ip,port);
+        listener.listen(function(err,ev) {
+            should.not.exist(err);
+            ev.should.have.property('name');
+            ev.should.have.property('attributes');
+            Object.keys(ev.attributes).length.should.be.eql(3+1);
+            ev.get('k').should.be.eql(payload);
+            listener.destroy();
+            done();
+        });
+        emitter.emit(ev);
+    });
+
     it("should emit double[] types", function(done) {
         var ev = emitter.createEvent('MyEvent');
         ev.set_double_array('k', [3.14,3.1415,3.1415926]);
